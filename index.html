@@ -1,433 +1,747 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Journey | The Comic Story</title>
-    
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Google Fonts: Comic Styles -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
-
-    <!-- GSAP for World-Class Animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
-    <!-- Tailwind Config -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'comic-head': ['"Bangers"', 'cursive'],
-                        'comic-body': ['"Comic Neue"', 'cursive'],
-                    },
-                    colors: {
-                        'comic-yellow': '#FACC15',
-                        'comic-red': '#EF4444',
-                        'comic-blue': '#3B82F6',
-                        'comic-paper': '#fdfaf6',
-                    },
-                    boxShadow: {
-                        'comic': '8px 8px 0px 0px rgba(0,0,0,1)',
-                        'comic-hover': '12px 12px 0px 0px rgba(0,0,0,1)',
-                    },
-                    animation: {
-                        'float': 'float 6s ease-in-out infinite',
-                    },
-                    keyframes: {
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Our Story | Tushar & Sakshi</title>
     <style>
-        /* Immersive Background */
-        body {
-            background-color: #fdfaf6;
-            background-image: 
-                radial-gradient(#d1d5db 15%, transparent 16%),
-                radial-gradient(#d1d5db 15%, transparent 16%);
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-            overflow-x: hidden;
-            cursor: default;
-        }
+      /* --- FONTS --- */
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap");
 
-        /* Floating Background Particles */
-        .particle {
-            position: fixed;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.3;
-            animation: floatUp linear infinite;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            20% { opacity: 0.6; }
-            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
-        }
+      /* --- VARIABLES (Apple Dark Romantic) --- */
+      :root {
+        --bg-deep: #000000;
+        --bg-glass: rgba(255, 255, 255, 0.08);
+        --border-glass: rgba(255, 255, 255, 0.1);
+        --text-primary: #ffffff;
+        --text-secondary: #a1a1aa;
+        --accent-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+        --glow-color: rgba(255, 154, 158, 0.5);
+        --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        --font-serif: "Playfair Display", serif;
+      }
 
-        /* Comic Panel Styling */
-        .comic-panel-container {
-            perspective: 1000px; /* For 3D Tilt Effect */
-        }
-        .comic-border {
-            border: 4px solid black;
-        }
-        
-        /* Image Parallax Container */
-        .img-overflow {
-            overflow: hidden;
-        }
-        .parallax-img {
-            scale: 1.2; /* Zoom in slightly for parallax movement */
-        }
+      /* --- RESET & CORE --- */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-        /* Typewriter Cursor */
-        .typewriter-cursor::after {
-            content: '|';
-            animation: blink 1s step-start infinite;
-            color: #EF4444;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
+      body {
+        background-color: var(--bg-deep);
+        color: var(--text-primary);
+        font-family: var(--font-sans);
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
 
-        /* Speech Bubble */
-        .speech-bubble {
-            position: relative;
-            background: #fff;
-            border: 4px solid #000;
+      /* --- CANVAS BACKGROUND --- */
+      #bg-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      /* --- MUSIC PLAYER (Premium Capsule) --- */
+      .music-player {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        padding: 10px 20px;
+        background: rgba(20, 20, 20, 0.6);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--border-glass);
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        z-index: 999;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      }
+      .music-player:hover {
+        transform: scale(1.05);
+        background: rgba(30, 30, 30, 0.8);
+      }
+      .music-icon {
+        width: 18px;
+        height: 18px;
+        fill: #fff;
+      }
+      .music-text {
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        opacity: 0.8;
+      }
+      .music-bars {
+        display: flex;
+        gap: 3px;
+        height: 12px;
+        align-items: flex-end;
+      }
+      .bar {
+        width: 3px;
+        background: var(--accent-gradient);
+        animation: sound 0.8s infinite ease-in-out alternate;
+      }
+      .bar:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+      .bar:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      .paused .bar {
+        height: 3px !important;
+        animation: none;
+      }
+
+      @keyframes sound {
+        0% {
+          height: 3px;
         }
-        .speech-bubble::after, .speech-bubble::before {
-            content: '';
-            position: absolute;
-            bottom: -20px;
-            left: 30px;
-            border-style: solid;
-            width: 0;
+        100% {
+          height: 12px;
         }
-        .speech-bubble::after {
-            border-width: 20px 20px 0;
-            border-color: #000 transparent;
+      }
+
+      /* --- LOADER --- */
+      #loader {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        z-index: 2000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 1.5s ease;
+      }
+      .loader-content {
+        text-align: center;
+        opacity: 0;
+        animation: fadeIn 2s forwards;
+      }
+      .loader-title {
+        font-family: var(--font-serif);
+        font-size: 2rem;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* --- TIMELINE CONTAINER --- */
+      .timeline-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 100px 20px 200px 20px;
+        position: relative;
+      }
+
+      /* The Vertical Line */
+      .timeline-line {
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          var(--border-glass) 10%,
+          var(--border-glass) 90%,
+          transparent
+        );
+        transform: translateX(-50%);
+      }
+
+      /* --- CARDS --- */
+      .timeline-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 150px;
+        position: relative;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .timeline-item.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Alternating Layout (Desktop) */
+      .timeline-item:nth-child(odd) {
+        flex-direction: row-reverse;
+      }
+      .timeline-item:nth-child(odd) .glass-card {
+        margin-left: 50px;
+      }
+      .timeline-item:nth-child(even) .glass-card {
+        margin-right: 50px;
+      }
+
+      /* Dot on the line */
+      .timeline-dot {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 12px;
+        height: 12px;
+        background: #fff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 20px var(--glow-color);
+        z-index: 10;
+      }
+
+      /* Glassmorphism Card */
+      .glass-card {
+        width: 45%;
+        background: var(--bg-glass);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid var(--border-glass);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        transition:
+          transform 0.4s ease,
+          box-shadow 0.4s ease;
+        cursor: pointer;
+      }
+      .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Card Content */
+      .card-image-wrapper {
+        width: 100%;
+        aspect-ratio: 16/10;
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 20px;
+        position: relative;
+      }
+      .card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 1.2s ease;
+        filter: brightness(0.9);
+      }
+      .glass-card:hover .card-image {
+        transform: scale(1.05);
+        filter: brightness(1);
+      }
+
+      .card-date {
+        font-size: 0.8rem;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        margin-bottom: 8px;
+      }
+      .card-title {
+        font-family: var(--font-serif);
+        font-size: 1.8rem;
+        margin-bottom: 12px;
+        background: linear-gradient(to right, #fff, #ccc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .card-text {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: var(--text-secondary);
+        font-weight: 300;
+      }
+
+      /* Typewriter Effect Class */
+      .typewriter-text {
+        border-right: 2px solid transparent;
+      }
+      .typewriter-text.typing {
+        border-right: 2px solid var(--text-primary);
+        animation: blink 0.7s infinite;
+      }
+
+      /* --- HERO SECTION --- */
+      .hero {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        position: relative;
+      }
+      .hero-subtitle {
+        font-size: 0.9rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: var(--text-secondary);
+        margin-bottom: 20px;
+        opacity: 0;
+        animation: fadeIn 2s 0.5s forwards;
+      }
+      .hero-title {
+        font-family: var(--font-serif);
+        font-size: 4rem;
+        line-height: 1.1;
+        margin-bottom: 40px;
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        opacity: 0;
+        animation: fadeIn 2s 1s forwards;
+      }
+
+      /* --- ENDING --- */
+      .ending-section {
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+      }
+      .ending-photo {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        object-fit: cover;
+        margin-bottom: 30px;
+        box-shadow: 0 0 50px var(--glow-color);
+        transition: transform 10s ease;
+      }
+
+      /* --- RESPONSIVE --- */
+      @media (max-width: 768px) {
+        .timeline-line {
+          left: 20px;
+          transform: none;
         }
-        .speech-bubble::before {
-            border-width: 14px 14px 0;
-            border-color: #fff transparent;
-            bottom: -14px;
-            left: 34px;
-            z-index: 1;
+        .timeline-item,
+        .timeline-item:nth-child(odd) {
+          flex-direction: column;
+          align-items: flex-start;
+          margin-left: 40px;
         }
+        .timeline-item:nth-child(odd) .glass-card,
+        .timeline-item:nth-child(even) .glass-card {
+          width: 100%;
+          margin: 0;
+        }
+        .timeline-dot {
+          left: 20px;
+          transform: translate(-50%, -50%);
+        }
+        .hero-title {
+          font-size: 3rem;
+        }
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
     </style>
-</head>
-<body class="font-comic-body text-black antialiased">
+  </head>
+  <body>
+    <!-- Audio -->
+    <audio id="bg-music" loop>
+      <source
+        src="music.mp3"
+        type="audio/mp3"
+      />
+    </audio>
 
-    <!-- Floating Particles Container -->
-    <div id="particles-container"></div>
+    <!-- Canvas -->
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- 1. HERO SECTION -->
-    <header class="min-h-screen flex flex-col items-center justify-center p-4 relative overflow-hidden z-10">
-        <!-- Animated Background Shapes -->
-        <div class="absolute top-10 left-10 w-24 h-24 bg-comic-yellow rounded-full border-4 border-black animate-float opacity-80" style="animation-delay: 0s;"></div>
-        <div class="absolute bottom-20 right-10 w-16 h-16 bg-comic-blue rotate-12 border-4 border-black animate-float opacity-80" style="animation-delay: 2s;"></div>
-        <div class="absolute top-1/3 right-5 w-12 h-12 bg-comic-red rounded-lg border-4 border-black animate-float opacity-80" style="animation-delay: 1s;"></div>
+    <!-- Loader -->
+    <div id="loader">
+      <div class="loader-content">
+        <div class="loader-title">Tushar & Sakshi</div>
+        <p style="margin-top: 10px; color: #666; font-size: 0.9rem">
+          Loading Story...
+        </p>
+      </div>
+    </div>
 
-        <div class="relative z-10 max-w-lg w-full text-center">
-            <div class="hero-card bg-white border-4 border-black shadow-comic p-8 md:p-12 rotate-1 hover:rotate-0 transition-transform duration-500">
-                <span class="inline-block bg-black text-white px-4 py-1 font-comic-head text-xl -rotate-2 mb-6">EPISODE 1</span>
-                
-                <h1 class="font-comic-head text-7xl md:text-8xl leading-none mb-4 drop-shadow-lg gs-reveal">
-                    THE UNSENT <br>
-                    <span class="text-comic-red">LETTERS</span>
-                </h1>
-                
-                <div class="w-full h-2 bg-black rounded-full my-6 gs-reveal"></div>
-                
-                <div class="relative w-full aspect-video border-4 border-black bg-gray-200 mb-6 overflow-hidden group gs-reveal">
-                    <!-- Placeholder Cover Image -->
-                    <img src="1.png" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt="Cover Image">
-                    <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-all"></div>
-                </div>
+    <!-- Music Player -->
+    <div class="music-player" onclick="toggleMusic()">
+      <svg class="music-icon" viewBox="0 0 24 24">
+        <path
+          d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"
+        />
+      </svg>
+      <div class="music-text">Play Memory</div>
+      <div class="music-bars paused" id="music-bars">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+      </div>
+    </div>
 
-                <p class="text-2xl font-bold italic gs-reveal">"Some stories don't have endings... just new beginnings."</p>
-                
-                <div class="mt-8 animate-bounce gs-reveal">
-                    <p class="font-comic-head text-xl text-gray-500">SCROLL TO READ</p>
-                    <svg class="w-8 h-8 mx-auto mt-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
-                </div>
-            </div>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-subtitle">The Timeline</div>
+      <h1 class="hero-title">Some stories<br />are timeless.</h1>
+      <p
+        style="
+          color: var(--text-secondary);
+          max-width: 400px;
+          margin-top: 20px;
+          font-weight: 300;
+        "
+      >
+        A journey from a quiet office floor to an unforgettable memory.
+      </p>
+    </section>
+
+    <!-- TIMELINE -->
+    <div class="timeline-container">
+      <div class="timeline-line"></div>
+
+      <!-- Card 1 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="glass-card">
+          <div class="card-image-wrapper">
+            <img
+              src="1.png"
+              class="card-image"
+              alt="First Sight"
+              onerror="
+                this.src = 'https://picsum.photos/seed/first/800/600?grayscale'
+              "
+            />
+          </div>
+          <div class="card-date">Chapter 1</div>
+          <h2 class="card-title">The First Sight</h2>
+          <p
+            class="card-text typewriter-target"
+            data-text="The office was crowded, yet silence fell when you walked in. It wasn't fireworks. It was a quiet realization that nothing would be the same."
+          ></p>
         </div>
-    </header>
+      </div>
 
-    <!-- 2. STORY TIMELINE -->
-    <main class="max-w-2xl mx-auto px-4 pb-32 space-y-24 z-10 relative">
-
-        <!-- Chapter 1 -->
-        <div class="comic-panel-container group">
-            <div class="comic-panel bg-white border-4 border-black p-3 shadow-comic transition-all duration-300 transform">
-                <div class="flex justify-between items-center mb-3 px-1">
-                    <div class="bg-comic-yellow border-2 border-black px-3 py-1 font-comic-head text-xl transform -rotate-2">
-                        THE MEETING
-                    </div>
-                    <div class="text-xs font-bold text-gray-400">#001</div>
-                </div>
-                
-                <div class="img-overflow w-full aspect-square border-4 border-black bg-black mb-4">
-                    <img src="1.png" class="parallax-img w-full h-full object-cover grayscale contrast-125" alt="Chapter 1">
-                </div>
-                
-                <div class="speech-bubble p-6">
-                    <p class="text-xl font-bold leading-relaxed typewriter" data-text="It started in the Wipro ODC. Where strangers became a team. New project, new faces..."></p>
-                </div>
-            </div>
+      <!-- Card 2 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="glass-card">
+          <div class="card-image-wrapper">
+            <img
+              src="1.png"
+              class="card-image"
+              alt="Glances"
+              onerror="
+                this.src = 'https://picsum.photos/seed/glance/800/600?grayscale'
+              "
+            />
+          </div>
+          <div class="card-date">Chapter 2</div>
+          <h2 class="card-title">Secret Glances</h2>
+          <p
+            class="card-text typewriter-target"
+            data-text="I never had the courage to speak first. My eyes did the talking, searching for you across the meeting room. Hoping you'd look back."
+          ></p>
         </div>
+      </div>
 
-        <!-- Chapter 2 -->
-        <div class="comic-panel-container group">
-            <div class="comic-panel bg-white border-4 border-black p-3 shadow-comic transition-all duration-300 transform rotate-1">
-                <div class="flex justify-between items-center mb-3 px-1">
-                    <div class="bg-comic-blue text-white border-2 border-black px-3 py-1 font-comic-head text-xl transform rotate-2">
-                        THE GAZE
-                    </div>
-                    <div class="text-xs font-bold text-gray-400">#002</div>
-                </div>
-                
-                <div class="img-overflow w-full aspect-square border-4 border-black bg-black mb-4">
-                    <img src="1.png" class="parallax-img w-full h-full object-cover grayscale contrast-125" alt="Chapter 2">
-                </div>
-                
-                <div class="bg-comic-paper border-4 border-black border-dashed p-6">
-                    <p class="text-xl font-bold leading-relaxed text-gray-800 italic typewriter" data-text="I watched from afar. Hoping for a friendship that felt impossible. Just thinking... if only she would look back."></p>
-                </div>
-            </div>
+      <!-- Card 3 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="glass-card">
+          <div class="card-image-wrapper">
+            <img
+              src="1.png"
+              class="card-image"
+              alt="Time"
+              onerror="
+                this.src = 'https://picsum.photos/seed/clock/800/600?grayscale'
+              "
+            />
+          </div>
+          <div class="card-date">Chapter 3</div>
+          <h2 class="card-title">Time Passing</h2>
+          <p
+            class="card-text typewriter-target"
+            data-text="Months passed like a blur. We became friends. We laughed. But the words I really wanted to say stayed locked in my heart."
+          ></p>
         </div>
+      </div>
 
-        <!-- Chapter 3 -->
-        <div class="comic-panel-container group">
-            <div class="comic-panel bg-white border-4 border-black p-3 shadow-comic transition-all duration-300 transform -rotate-1">
-                <!-- Split Panel Simulation -->
-                <div class="grid grid-cols-5 gap-2 mb-4">
-                    <div class="col-span-3 img-overflow aspect-[3/4] border-4 border-black bg-black">
-                        <img src="1.png" class="parallax-img w-full h-full object-cover grayscale contrast-125" alt="Chapter 3">
-                    </div>
-                    <div class="col-span-2 flex flex-col justify-center items-center bg-gray-100 border-4 border-black text-center p-2">
-                        <span class="font-comic-head text-5xl text-gray-300">TICK</span>
-                        <span class="font-comic-head text-5xl text-gray-400">TOCK</span>
-                    </div>
-                </div>
-                
-                <div class="speech-bubble p-6">
-                    <p class="text-xl font-bold leading-relaxed typewriter" data-text="Months of professional silence. Just another colleague in the crowd. Words left unspoken."></p>
-                </div>
-            </div>
+      <!-- Card 4 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="glass-card">
+          <div class="card-image-wrapper">
+            <img
+              src="1.png"
+              class="card-image"
+              alt="Gift"
+              onerror="
+                this.src = 'https://picsum.photos/seed/gift/800/600?grayscale'
+              "
+            />
+          </div>
+          <div class="card-date">Chapter 4</div>
+          <h2 class="card-title">The Gift</h2>
+          <p
+            class="card-text typewriter-target"
+            data-text="I was leaving the job. It was now or never. I made a small frame. Simple, imperfect, but honest. I handed it to you with shaking hands."
+          ></p>
         </div>
+      </div>
 
-        <!-- Chapter 4 -->
-        <div class="comic-panel-container group">
-            <div class="comic-panel bg-white border-4 border-black p-3 shadow-comic transition-all duration-300">
-                <div class="absolute -top-5 left-1/2 -translate-x-1/2 bg-comic-red text-white border-4 border-black px-6 py-2 font-comic-head text-2xl z-10 shadow-lg transform rotate-1">
-                    THE DEPARTURE
-                </div>
-
-                <div class="mt-8 img-overflow w-full aspect-video border-4 border-black bg-black mb-4">
-                    <img src="1.png" class="parallax-img w-full h-full object-cover grayscale contrast-125" alt="Chapter 4">
-                </div>
-                
-                <div class="border-t-4 border-black pt-4">
-                    <p class="text-xl font-bold leading-relaxed typewriter" data-text="The Resignation. Six months later. I couldn't leave without the truth. I needed to know."></p>
-                </div>
-            </div>
+      <!-- Card 5 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="glass-card" style="border-color: rgba(255, 154, 158, 0.4)">
+          <div class="card-image-wrapper">
+            <img
+              src="1.png"
+              class="card-image"
+              alt="Confession"
+              onerror="
+                this.src = 'https://picsum.photos/seed/heart/800/600?grayscale'
+              "
+            />
+          </div>
+          <div class="card-date">Chapter 5</div>
+          <h2 class="card-title" style="color: #ff9a9e">The Confession</h2>
+          <p
+            class="card-text typewriter-target"
+            data-text="Sakshi... I really like you. I didn't want to leave without you knowing."
+          ></p>
         </div>
+      </div>
 
-        <!-- Chapter 5 -->
-        <div class="comic-panel-container group">
-            <div class="comic-panel bg-black p-2 shadow-comic transition-all duration-300 transform rotate-2">
-                <div class="bg-white border-2 border-white p-2">
-                    <div class="relative img-overflow w-full aspect-square border-4 border-black bg-gray-800 mb-4">
-                        <div class="absolute top-2 right-2 bg-comic-yellow border-2 border-black px-2 font-bold z-10 text-sm">Jan 7, 2026</div>
-                        <img src="1.png" class="parallax-img w-full h-full object-cover grayscale contrast-125" alt="Chapter 5">
-                    </div>
-                    
-                    <h3 class="font-comic-head text-4xl text-comic-red mb-2">THE CONFESSION</h3>
-                    <p class="text-xl font-bold leading-relaxed typewriter" data-text="The Photo Frame. The truth spoken too late. She was taken. It was the hardest moment of my life."></p>
-                </div>
-            </div>
+      <!-- Card 6 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="glass-card">
+          <div class="card-image-wrapper">
+            <img
+              src="1.png"
+              class="card-image"
+              alt="Reality"
+              onerror="
+                this.src = 'https://picsum.photos/seed/rain/800/600?grayscale'
+              "
+            />
+          </div>
+          <div class="card-date">Chapter 6</div>
+          <h2 class="card-title">The Reality</h2>
+          <p
+            class="card-text typewriter-target"
+            data-text="You listened gently. You were honest about your path. It hurt, quietly. But loving someone means respecting their happiness above your own."
+          ></p>
         </div>
+      </div>
 
-        <!-- Chapter 6 -->
-        <div class="comic-panel-container group">
-            <div class="comic-panel bg-white border-4 border-black p-3 shadow-comic transition-all duration-300">
-                <div class="img-overflow w-full aspect-square border-4 border-black bg-black mb-4">
-                    <img src="1.png" class="parallax-img w-full h-full object-cover grayscale contrast-125" alt="Chapter 6">
-                </div>
-                
-                <div class="bg-comic-blue text-white border-4 border-black p-6 shadow-md relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-white/10 rounded-full blur-xl"></div>
-                    <p class="text-2xl font-comic-head tracking-wide mb-2">"KEEP ME ACCOUNTABLE."</p>
-                    <p class="text-lg font-bold text-blue-100 typewriter" data-text="The shift from romance to a bond that lasts forever."></p>
-                </div>
-            </div>
+      <!-- Card 7 -->
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <div class="glass-card">
+          <div class="card-image-wrapper">
+            <img
+              src="1.png"
+              class="card-image"
+              alt="Distance"
+              onerror="
+                this.src =
+                  'https://picsum.photos/seed/distance/800/600?grayscale'
+              "
+            />
+          </div>
+          <div class="card-date">Chapter 7</div>
+          <h2 class="card-title">Distance</h2>
+          <p
+            class="card-text typewriter-target"
+            data-text="Now we are far apart. Different cities, different lives. But memories don't understand distance. They stay close."
+          ></p>
         </div>
+      </div>
+    </div>
 
-        <!-- Final Reveal -->
-        <section class="py-20 flex flex-col items-center justify-center text-center">
-            <div class="relative cursor-pointer group" onclick="this.classList.toggle('revealed')">
-                <div class="bg-white border-4 border-black p-8 shadow-comic transform transition-all duration-500 hover:scale-105 hover:rotate-2 relative z-10">
-                    <p class="font-comic-head text-gray-400 text-2xl uppercase mb-2 animate-pulse">Touch to Reveal</p>
-                    <div class="blur-md group-hover:blur-none group-[.revealed]:blur-none transition-all duration-700">
-                        <p class="font-comic-head text-5xl md:text-6xl text-black leading-tight">
-                            "I WILL NEVER<br>FORGET YOU."
-                        </p>
-                        <p class="font-comic-head text-6xl md:text-7xl text-comic-red mt-4 drop-shadow-md">
-                            SAKSHIIIIIIII!
-                        </p>
-                    </div>
-                </div>
-                <!-- Decor behind -->
-                <div class="absolute inset-0 bg-comic-yellow border-4 border-black transform rotate-6 z-0"></div>
-            </div>
-        </section>
+    <!-- ENDING -->
+    <section class="ending-section">
+      <img
+        src="1.png"
+        class="ending-photo"
+        alt="Us"
+        onerror="
+          this.src = 'https://picsum.photos/seed/flower/800/800?grayscale'
+        "
+      />
+      <h2
+        style="
+          font-family: var(--font-serif);
+          font-size: 2.5rem;
+          margin-bottom: 20px;
+        "
+      >
+        I will never forget you Sakshi❤️
+      </h2>
+      <p style="color: var(--text-secondary)">
+        Thank you for being my most beautiful chapter.
+      </p>
+    </section>
 
-    </main>
-
-    <footer class="bg-black text-white py-10 border-t-8 border-comic-yellow text-center relative overflow-hidden">
-        <div class="relative z-10">
-            <p class="font-comic-head text-2xl tracking-wider">Created with ❤️ by Tushar</p>
-            <p class="font-comic-body text-gray-500 text-sm mt-2">© 2026 The Unsent Letters</p>
-        </div>
-        <!-- Background Pattern in Footer -->
-        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
-    </footer>
-
-    <!-- Animations Script -->
     <script>
-        // 1. Particle System Setup
-        const particleContainer = document.getElementById('particles-container');
-        const particleColors = ['#FACC15', '#EF4444', '#3B82F6', '#000000'];
-        const shapes = ['★', '♥', '●', '✦'];
+      // --- 1. LOADER ---
+      window.addEventListener("load", () => {
+        setTimeout(() => {
+          document.getElementById("loader").style.opacity = "0";
+          setTimeout(() => {
+            document.getElementById("loader").remove();
+          }, 1500);
+        }, 1000);
+        initCanvas();
+      });
 
-        for (let i = 0; i < 20; i++) {
-            const span = document.createElement('span');
-            span.classList.add('particle');
-            span.innerHTML = shapes[Math.floor(Math.random() * shapes.length)];
-            span.style.color = particleColors[Math.floor(Math.random() * particleColors.length)];
-            span.style.left = Math.random() * 100 + 'vw';
-            span.style.fontSize = (Math.random() * 20 + 10) + 'px';
-            span.style.animationDuration = (Math.random() * 5 + 5) + 's';
-            span.style.animationDelay = (Math.random() * 5) + 's';
-            particleContainer.appendChild(span);
+      // --- 2. MUSIC PLAYER ---
+      const audio = document.getElementById("bg-music");
+      const bars = document.getElementById("music-bars");
+      let isPlaying = false;
+
+      function toggleMusic() {
+        if (isPlaying) {
+          audio.pause();
+          bars.classList.add("paused");
+          document.querySelector(".music-text").textContent = "Play Memory";
+        } else {
+          audio.play();
+          bars.classList.remove("paused");
+          document.querySelector(".music-text").textContent = "Listening...";
         }
+        isPlaying = !isPlaying;
+      }
 
-        // 2. GSAP & ScrollTrigger Setup
-        gsap.registerPlugin(ScrollTrigger);
+      // --- 3. SCROLL OBSERVER ---
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
 
-        // Hero Reveal
-        gsap.from(".gs-reveal", {
-            y: 50,
-            opacity: 0,
-            duration: 1,
-            stagger: 0.2,
-            ease: "back.out(1.7)"
-        });
-
-        // Panel Animations
-        const panels = document.querySelectorAll('.comic-panel-container');
-
-        panels.forEach((container) => {
-            const panel = container.querySelector('.comic-panel');
-            const img = container.querySelector('.parallax-img');
-            const typeText = container.querySelector('.typewriter');
-
-            // A. Pop-in Animation
-            gsap.fromTo(panel, 
-                { opacity: 0, y: 100, scale: 0.9, rotation: Math.random() * 6 - 3 }, // Random slight start rotation
-                {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    rotation: 0,
-                    duration: 0.8,
-                    ease: "elastic.out(1, 0.6)",
-                    scrollTrigger: {
-                        trigger: container,
-                        start: "top 80%",
-                        toggleActions: "play none none reverse"
-                    },
-                    onComplete: () => {
-                        // B. Start Typewriter ONLY after panel appears
-                        if(typeText && !typeText.classList.contains('typed')) {
-                            typeText.classList.add('typed');
-                            startTypewriter(typeText);
-                        }
-                    }
-                }
-            );
-
-            // C. Parallax Image Effect (Image moves slower than scroll)
-            gsap.to(img, {
-                yPercent: 20,
-                ease: "none",
-                scrollTrigger: {
-                    trigger: container,
-                    start: "top bottom",
-                    end: "bottom top",
-                    scrub: true
-                }
-            });
-        });
-
-        // 3. Typewriter Logic
-        function startTypewriter(element) {
-            const text = element.getAttribute('data-text');
-            element.innerHTML = ''; // Clear text
-            element.classList.add('typewriter-cursor'); // Add cursor
-            
-            let i = 0;
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, 30); // Typing speed
-                } else {
-                    element.classList.remove('typewriter-cursor'); // Remove cursor when done
-                }
+              // Trigger Typewriter
+              const typeText = entry.target.querySelector(".typewriter-target");
+              if (typeText && !typeText.classList.contains("typed")) {
+                typeText.classList.add("typed", "typewriter-text");
+                typeWriter(typeText, typeText.dataset.text);
+              }
             }
-            type();
+          });
+        },
+        { threshold: 0.2 },
+      );
+
+      document
+        .querySelectorAll(".timeline-item")
+        .forEach((el) => observer.observe(el));
+
+      // --- 4. TYPEWRITER ---
+      function typeWriter(element, text) {
+        let i = 0;
+        element.innerHTML = "";
+        element.classList.add("typing");
+        function type() {
+          if (i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, 30);
+          } else {
+            element.classList.remove("typing");
+          }
         }
+        type();
+      }
 
-        // 4. 3D Tilt Effect on Mouse Move
-        document.querySelectorAll('.comic-panel-container').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left; // x position within the element.
-                const y = e.clientY - rect.top;  // y position within the element.
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg rotation
-                const rotateY = ((x - centerX) / centerX) * 10;
+      // --- 5. FLOATING HEARTS CANVAS ---
+      const canvas = document.getElementById("bg-canvas");
+      const ctx = canvas.getContext("2d");
+      let hearts = [];
 
-                const panel = card.querySelector('.comic-panel');
-                panel.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-                panel.style.boxShadow = `${-rotateY * 2}px ${rotateX * 2 + 10}px 20px rgba(0,0,0,0.2)`;
-            });
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resizeCanvas);
 
-            card.addEventListener('mouseleave', () => {
-                const panel = card.querySelector('.comic-panel');
-                panel.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
-                panel.style.boxShadow = ''; // Revert to CSS default
-            });
+      class Heart {
+        constructor() {
+          this.reset();
+        }
+        reset() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height + canvas.height;
+          this.size = Math.random() * 50 + 20;
+          this.speed = Math.random() * 0.5 + 0.2;
+          this.opacity = Math.random() * 0.15;
+          this.blur = Math.random() * 10 + 5;
+        }
+        update() {
+          this.y -= this.speed;
+          if (this.y < -100) this.reset();
+        }
+        draw() {
+          ctx.save();
+          ctx.filter = `blur(${this.blur}px)`;
+          ctx.globalAlpha = this.opacity;
+          ctx.fillStyle = "#ff9a9e";
+          ctx.beginPath();
+          // Draw circle as abstract heart orb
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+      }
+
+      function initCanvas() {
+        resizeCanvas();
+        for (let i = 0; i < 30; i++) hearts.push(new Heart());
+        animate();
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        hearts.forEach((h) => {
+          h.update();
+          h.draw();
         });
-
+        requestAnimationFrame(animate);
+      }
     </script>
-</body>
+
+
+
+  </body>
 </html>
